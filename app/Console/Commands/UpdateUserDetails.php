@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\User;
+use App\Utils\TimeZoneConfig;
 use Faker\Factory as Faker;
 
 class UpdateUserDetails extends Command
@@ -28,7 +29,7 @@ class UpdateUserDetails extends Command
     public function handle()
     {
         $faker = Faker::create();
-        $timezones = ['CET', 'CST', 'GMT+1'];
+        $timezones = TimeZoneConfig::$timezones;
 
         $users = User::all();
 
@@ -37,7 +38,7 @@ class UpdateUserDetails extends Command
             $user->name = $faker->firstName . ' ' . $faker->lastName;
             $user->timezone = $faker->randomElement($timezones);
             $user->save();
-    
+
             $this->info('Updated User ID: ' . $user->id . ' - ' . $user->name . ' - ' . $user->timezone);
         }
     }

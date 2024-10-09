@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Utils\TimeZoneConfig;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,7 +24,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $timezones = ['CET', 'CST', 'GMT+1'];
+        $timezones = TimeZoneConfig::$timezones;
 
         return [
             'name' => fake()->name(),
