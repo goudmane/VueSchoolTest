@@ -56,9 +56,16 @@ class UserService
      */
     protected function cacheChanges()
     {
-        $mergedChanges = array_merge($this->currentChanges, $this->cachedChanges);
-        Cache::put($this->cacheKey, $mergedChanges, NULL);
-        $this->cachedChanges = $mergedChanges;
+        $index = array_search($this->currentChanges[0]['email'], array_column($this->cachedChanges, 'email'));
+
+        if ($index !== false) {
+            $this->cachedChanges[$index] = $this->currentChanges[0];
+        } else {
+            $mergedChanges = array_merge($this->currentChanges, $this->cachedChanges);
+            Cache::put($this->cacheKey, $mergedChanges, NULL);
+            $this->cachedChanges = $mergedChanges;
+        }
+        $this->logger->info("coount in cache", [count($this->cachedChanges)]);
     }
 
     /**
